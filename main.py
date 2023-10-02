@@ -4,11 +4,13 @@ from mainInterface import MainInterface
 from listInterface import ListInterface
 from DetailInterface import DetailInterface
 def main():
-    main_interface = MainInterface()
     if(not file_manager.isValidFile()):
         return
     file_manager.sortTodoList()
-    ##main stream 시작
+    main_menu()
+
+def main_menu():
+    main_interface = MainInterface()
     while True:
         menu=main_interface.CLI()
         if(menu==1):
@@ -17,6 +19,9 @@ def main():
             add_todo()
         else:
             break
+
+def add_todo():
+    print("addtodo")
 
 def select_todo():
     list_interface = ListInterface(file_manager)
@@ -52,8 +57,6 @@ def edit_todo(detail_interface):
         else:
             break
 
-def add_todo():
-    print("addtodo")
 
 file_manager = FileManager()
 main()
