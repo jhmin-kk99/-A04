@@ -12,8 +12,15 @@ class ListInterface(interface):
         printData=self.filteredData.drop(columns=['Index'])
         printData.index=range(1,len(printData)+1)
         self.text = "<TODO List>\n"
-        self.text += printData.to_string()
+        if(len(printData)==0):
+            self.text+="할일이 없습니다."
+        else:
+            self.text += printData.to_string()
+        self.text+="\n0. 돌아가기"
         self.text += "\nTODO/할일>"
+        if(len(printData)==0):
+            input("할일이 없습니다. 아무키나 입력하면 돌아갑니다.")##예외처리
+            return 0
         return super().CLI()
     def getIndexByUser(self,num):
         return self.filteredData.iloc[num-1]['Index']
