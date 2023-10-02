@@ -19,17 +19,4 @@ class DetailInterface(interface):
 
     def delete_todo(self):
         self.file_manager.deleteTodo(self.index)
-    def edit_todo(self):
-        edit_interface=self.EditInterface(self)
-        while True:
-            edit_interface.CLI()
-        print(self.index)
-
-    class EditInterface(interface):
-        def __init__(self,outer):
-            self.outer=outer
-
-        def CLI(self):
-            self.
-            self.text="<할일 수정하기>"
 
