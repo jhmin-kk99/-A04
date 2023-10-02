@@ -46,5 +46,6 @@ class FileManager:
         self.df.drop(index, inplace=True)
         self.df.to_csv(self.file_path, index=False)
 
-    def editTodo(self, index, row):
-        self.df.loc[index] = row
+    def editTodo(self, index, col_name,data):
+        self.df.loc[index,col_name]=data
+        self.df.to_csv(self.file_path, index=False)
