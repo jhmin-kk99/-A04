@@ -27,12 +27,8 @@ class FileManager:
         week_df = self.df[(self.df['반복'] == "매주") & self.df['마감 날짜'].apply(filter_by_week)]
         none_df = self.df[(self.df['반복'] == "없음") & self.df['마감 날짜'].apply(filter_by_day)]
         filter_df = pd.concat([years_df, month_df, week_df, none_df])
+        filter_df['Index']=filter_df.index
         return filter_df
-
-    def filterTodoListByList(self):
-        filtered_df=self.filterTodoList()
-        filtered_df['I']=filtered_df.index
-        return filtered_df.to_numpy()
 
     def isValidFile(self):
         for index, row in self.df.iterrows():
