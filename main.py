@@ -42,8 +42,15 @@ def detail_todo(index):
 def edit_todo(detail_interface):
     edit_interface = EditInterface(detail_interface)
     while True:
-        edit_interface.CLI()
-
+        menu=edit_interface.CLI()
+        if(menu==1):
+            edit_interface.edit_title()
+        elif(menu==2):
+            edit_interface.edit_date()
+        elif(menu==3):
+            edit_interface.edit_repeat()
+        else:
+            break
 
 def add_todo():
     print("addtodo")
