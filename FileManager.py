@@ -49,3 +49,8 @@ class FileManager:
     def editTodo(self, index, col_name,data):
         self.df.loc[index,col_name]=data
         self.df.to_csv(self.file_path, index=False)
+
+    def addTodo(self,data):
+        new_row=pd.DataFrame({'작업 이름':[data[0]],'마감 날짜':[data[1]],'반복':[data[2]]})
+        self.df=pd.concat([self.df,new_row],ignore_index=True)##index 초기화
+        self.df.to_csv(self.file_path, index=False)
