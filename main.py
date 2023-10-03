@@ -1,73 +1,72 @@
+from FileManager import FileManager
+from MainInterface import MainInterface
+from ListInterface import ListInterface
+from DetailInterface import DetailInterface
 from AddInterface import AddInterface
 from EditInterface import EditInterface
-from FileManager import FileManager
-from mainInterface import MainInterface
-from listInterface import ListInterface
-from DetailInterface import DetailInterface
-def main():
-    if(not file_manager.isValidFile()):
-        return
-    file_manager.sortTodoList()
-    main_menu()
 
-def main_menu():
-    main_interface = MainInterface()
-    while True:
-        menu=main_interface.CLI()
-        if(menu==1):
-            select_todo()
-        elif (menu==2):
-            add_todo()
-            select_todo()
-        else:
-            break
+class TodoApp:
+    def __init__(self):
+        self.file_manager = FileManager()
 
-def add_todo():
-    add_interface = AddInterface(file_manager)
-    while True:
-        menu=add_interface.CLI()
-        if(menu==0):
+    def run(self):
+        if not self.file_manager.isValidFile():
             return
-        elif(menu==1):
-            continue
-        else:
-            print("잘못된 프로그램 흐름")
-            return
+        self.file_manager.sortTodoList()
+        self.main_menu()
 
-def select_todo():
-    list_interface = ListInterface(file_manager)
-    while True:
-        menu=list_interface.CLI()
-        if(menu==0):
-            return
-        detail_todo(list_interface.getIndexByUser(menu))
+    def main_menu(self):
+        main_interface = MainInterface()
+        while True:
+            menu = main_interface.CLI()
+            if menu == 1:
+                self.select_todo()
+            elif menu == 2:
+                self.add_todo()
+                self.select_todo()
+            else:
+                break
 
-def detail_todo(index):
-    detail_interface=DetailInterface(index,file_manager)
-    while True:
-        menu=detail_interface.CLI()
-        if(menu==0):
-            return
-        elif(menu==2):
-            detail_interface.delete_todo()
-            return
-        else:
-            edit_todo(detail_interface)
-            return
+    def add_todo(self):
+        add_interface = AddInterface(self.file_manager)
+        while True:
+            menu = add_interface.CLI()
+            if menu == 0:
+                return
 
-def edit_todo(detail_interface):
-    edit_interface = EditInterface(detail_interface)
-    while True:
-        menu=edit_interface.CLI()
-        if(menu==1):
-            edit_interface.edit_title()
-        elif(menu==2):
-            edit_interface.edit_date()
-        elif(menu==3):
-            edit_interface.edit_repeat()
-        else:
-            break
+    def select_todo(self):
+        list_interface = ListInterface(self.file_manager)
+        while True:
+            menu = list_interface.CLI()
+            if menu == 0:
+                return
+            index = list_interface.get_index_by_user(menu)
+            self.detail_todo(index)
 
+    def detail_todo(self, index):
+        detail_interface = DetailInterface(index, self.file_manager)
+        while True:
+            menu = detail_interface.CLI()
+            if menu == 0:
+                return
+            elif menu == 2:
+                detail_interface.delete_todo()
+                return
+            else:
+                self.edit_todo(detail_interface)
 
-file_manager = FileManager()
-main()
+    def edit_todo(self, detail_interface):
+        edit_interface = EditInterface(detail_interface)
+        while True:
+            menu = edit_interface.CLI()
+            if menu == 1:
+                edit_interface.edit_title()
+            elif menu == 2:
+                edit_interface.edit_date()
+            elif menu == 3:
+                edit_interface.edit_repeat()
+            else:
+                break
+
+app = TodoApp()
+app.run()
