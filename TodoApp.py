@@ -20,30 +20,30 @@ class TodoApp:
         while True:
             menu = main_interface.CLI()
             if menu == 1:
-                self.select_todo()
+                self.select_menu()
             elif menu == 2:
-                self.add_todo()
-                self.select_todo()
+                self.add_menu()
+                self.select_menu()
             else:
                 break
 
-    def add_todo(self):
+    def add_menu(self):
         add_interface = AddInterface(self.file_manager)
         while True:
             menu = add_interface.CLI()
             if menu == 0:
                 return
 
-    def select_todo(self):
+    def select_menu(self):
         list_interface = ListInterface(self.file_manager)
         while True:
             menu = list_interface.CLI()
             if menu == 0:
                 return
             index = list_interface.get_index_by_user(menu)
-            self.detail_todo(index)
+            self.detail_menu(index)
 
-    def detail_todo(self, index):
+    def detail_menu(self, index):
         detail_interface = DetailInterface(index, self.file_manager)
         while True:
             menu = detail_interface.CLI()
@@ -53,9 +53,9 @@ class TodoApp:
                 detail_interface.delete_todo()
                 return
             else:
-                self.edit_todo(detail_interface)
+                self.edit_menu(detail_interface)
 
-    def edit_todo(self, detail_interface):
+    def edit_menu(self, detail_interface):
         edit_interface = EditInterface(detail_interface)
         while True:
             menu = edit_interface.CLI()
