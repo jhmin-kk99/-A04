@@ -1,9 +1,9 @@
 from FileManager import FileManager
-from MainInterface import MainInterface
-from ListInterface import ListInterface
-from DetailInterface import DetailInterface
-from AddInterface import AddInterface
-from EditInterface import EditInterface
+from Interface.MainInterface import MainInterface
+from Interface.ListInterface import ListInterface
+from Interface.DetailInterface import DetailInterface
+from Interface.AddInterface import AddInterface
+from Interface.EditInterface import EditInterface
 
 class TodoApp:
     def __init__(self):
