@@ -1,3 +1,4 @@
+from AddInterface import AddInterface
 from EditInterface import EditInterface
 from FileManager import FileManager
 from mainInterface import MainInterface
@@ -17,11 +18,21 @@ def main_menu():
             select_todo()
         elif (menu==2):
             add_todo()
+            select_todo()
         else:
             break
 
 def add_todo():
-    print("addtodo")
+    add_interface = AddInterface(file_manager)
+    while True:
+        menu=add_interface.CLI()
+        if(menu==0):
+            return
+        elif(menu==1):
+            continue
+        else:
+            print("잘못된 프로그램 흐름")
+            return
 
 def select_todo():
     list_interface = ListInterface(file_manager)
