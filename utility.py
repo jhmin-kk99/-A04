@@ -2,14 +2,14 @@ import re
 from datetime import datetime, date,timedelta
 
 def is_valid_title(input_string):
-    pattern = r'^(?![␣])[␣a-zA-Z가-힣]{1,10}$'
+    pattern = r'^(?![␣])[␣a-zA-Z가-힣1-9]{1,10}$'
     if re.match(pattern, input_string):
         return True
     else:
         return False
 
 def is_valid_title_str(input_string):
-    pattern = r'^(?![␣])[␣a-zA-Z가-힣]{1,10}$'
+    pattern = r'^(?![␣])[␣a-zA-Z가-힣1-9]{1,10}$'
     if re.match(pattern, input_string):
         return "True"
     else:
@@ -88,3 +88,17 @@ def filter_by_day(input_date):
     today = date.today()
     input = datetime.strptime(input_date, "%Y-%m-%d").date()
     return today==input
+
+
+def input_menu(start, end, input_message):
+    err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요."
+    while True:
+        try:
+            menu = int(input(input_message))
+            if (menu < start or menu >= end):
+                print(err_message)
+                continue
+            else:
+                return menu
+        except ValueError:
+            print(err_message)
