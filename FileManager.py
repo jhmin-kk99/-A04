@@ -28,6 +28,7 @@ class FileManager:
         none_df = self.df[(self.df['반복'] == "없음") & self.df['마감 날짜'].apply(filter_by_day)]
         filter_df = pd.concat([years_df, month_df, week_df, none_df])
         filter_df['Index']=filter_df.index
+        filter_df=filter_df.sort_values(by='마감 날짜')
         return filter_df
 
     def is_valid_file(self):
