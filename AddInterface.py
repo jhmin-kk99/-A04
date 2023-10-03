@@ -19,7 +19,7 @@ class AddInterface(interface):
         self.ask_title()
         self.ask_date()
         self.ask_repeat()
-        self.file_manager.addTodo([self.title,self.date,self.repeat])
+        self.file_manager.add_todo([self.title, self.date, self.repeat])
 
 
     def ask_title(self):

@@ -10,9 +10,9 @@ class TodoApp:
         self.file_manager = FileManager()
 
     def run(self):
-        if not self.file_manager.isValidFile():
+        if not self.file_manager.is_valid_file():
             return
-        self.file_manager.sortTodoList()
+        self.file_manager.sort_todolist()
         self.main_menu()
 
     def main_menu(self):

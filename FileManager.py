@@ -14,14 +14,14 @@ class FileManager:
             })
             self.df.to_csv(self.file_path, index=False)
 
-    def sortTodoList(self):
+    def sort_todolist(self):
         self.df = self.df.sort_values(by='마감 날짜')
         self.df.to_csv(self.file_path, index=False)
 
-    def getDataByIndex(self, index):
+    def get_data_by_index(self, index):
         return self.df.loc[index].to_list()
 
-    def filterTodoList(self):
+    def filter_todolist(self):
         years_df = self.df[(self.df['반복'] == "매년") & self.df['마감 날짜'].apply(filter_by_year)]
         month_df = self.df[(self.df['반복'] == "매달") & self.df['마감 날짜'].apply(filter_by_month)]
         week_df = self.df[(self.df['반복'] == "매주") & self.df['마감 날짜'].apply(filter_by_week)]
@@ -30,7 +30,7 @@ class FileManager:
         filter_df['Index']=filter_df.index
         return filter_df
 
-    def isValidFile(self):
+    def is_valid_file(self):
         for index, row in self.df.iterrows():
             row_data = {'index': index, 'data': row.to_dict()}
             if (is_valid_title(row_data['data']['작업 이름'])
@@ -42,15 +42,15 @@ class FileManager:
                 return False
         return True
 
-    def deleteTodo(self, index):
+    def delete_todo(self, index):
         self.df.drop(index, inplace=True)
         self.df.to_csv(self.file_path, index=False)
 
-    def editTodo(self, index, col_name,data):##col name:'작업 이름'
+    def edit_todo(self, index, col_name, data):##col name:'작업 이름'
         self.df.loc[index,col_name]=data
         self.df.to_csv(self.file_path, index=False)
 
-    def addTodo(self,data):## data: [배열임]
+    def add_todo(self, data):## data: [배열임]
         new_row=pd.DataFrame({'작업 이름':[data[0]],'마감 날짜':[data[1]],'반복':[data[2]]})
         self.df=pd.concat([self.df,new_row],ignore_index=True)##index 초기화
         self.df.to_csv(self.file_path, index=False)

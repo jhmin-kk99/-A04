@@ -11,7 +11,7 @@ class EditInterface(interface):
 
     def CLI(self):
         self.text = "<할일 수정하기>"
-        todo=self.file_manager.getDataByIndex(self.index)
+        todo=self.file_manager.get_data_by_index(self.index)
         self.todoText="\n작업: "+todo[0]+"\n마감: "+todo[1]+"\n반복: "+todo[2]+"\n"
         self.text+=self.todoText
         self.text+="\n1.작업 수정하기" \
@@ -32,7 +32,7 @@ class EditInterface(interface):
                 break
             else:
                 print(is_valid)
-        self.file_manager.editTodo(self.index,'작업 이름',title)
+        self.file_manager.edit_todo(self.index, '작업 이름', title)
 
     def edit_date(self):
         text="<할일 수정하기>"
@@ -45,7 +45,7 @@ class EditInterface(interface):
                 break
             else:
                 print(is_valid)
-        self.file_manager.editTodo(self.index,'마감 날짜',date)
+        self.file_manager.edit_todo(self.index, '마감 날짜', date)
 
     def edit_repeat(self):
         text = "<할일 수정하기>"
@@ -64,4 +64,4 @@ class EditInterface(interface):
                     break
             except ValueError:
                 print(err_message)
-        self.file_manager.editTodo(self.index,'반복', menu)
+        self.file_manager.edit_todo(self.index, '반복', menu)

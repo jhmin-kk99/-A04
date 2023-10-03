@@ -7,7 +7,7 @@ class DetailInterface(interface):
         self.range=2
 
     def CLI(self):
-        todo=self.file_manager.getDataByIndex(self.index)
+        todo=self.file_manager.get_data_by_index(self.index)
         self.todoText="\n작업: "+todo[0]+"\n마감: "+todo[1]+"\n반복: "+todo[2]
         self.text = "\n<할일>"
         self.text+=self.todoText+"\n"
@@ -18,5 +18,5 @@ class DetailInterface(interface):
         return super().CLI()
 
     def delete_todo(self):
-        self.file_manager.deleteTodo(self.index)
+        self.file_manager.delete_todo(self.index)
 
