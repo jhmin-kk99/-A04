@@ -7,7 +7,7 @@ class AddInterface(interface):
         self.err_message = "오류: 잘못 된 입력 입니다. 다시 입력해 주세요"
 
     def CLI(self):
-        self.add_todo()
+        self.add_todo()##할일 추가
         self.text = "<할일 추가하기>\n"
         self.text += "할일을 추가하였습니다. 계속 추가하시곘습니까?\n"
         self.text += "1. 계속 추가하기\n"
