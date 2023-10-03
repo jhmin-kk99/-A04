@@ -15,8 +15,8 @@ class EditInterface(interface):
         self.todoText="\n작업: "+todo[0]+"\n마감: "+todo[1]+"\n반복: "+todo[2]+"\n"
         self.text+=self.todoText
         self.text+="\n1.작업 수정하기" \
-                   "\n2.마감 삭제하기" \
-                   "\n3.반복 삭제하기" \
+                   "\n2.마감 수정하기" \
+                   "\n3.반복 수정하기" \
                    "\n0. 돌아가기\n"
         self.text += "\nTODO/할일 수정>"
         return super().CLI()
@@ -64,4 +64,6 @@ class EditInterface(interface):
                     break
             except ValueError:
                 print(err_message)
+        menu_list=["-","없음","매주","매달","매년"]
+        menu=menu_list[menu]
         self.file_manager.edit_todo(self.index, '반복', menu)
