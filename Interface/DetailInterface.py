@@ -1,4 +1,4 @@
-from interface import interface
+from .interface import interface
 class DetailInterface(interface):
     def __init__(self,index,file_manager):
         self.file_manager=file_manager

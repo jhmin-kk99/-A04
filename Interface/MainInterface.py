@@ -1,4 +1,4 @@
-from interface import interface
+from .interface import interface
 class MainInterface(interface):
     def __init__(self):
         self.text = "<메인 메뉴>\n" \

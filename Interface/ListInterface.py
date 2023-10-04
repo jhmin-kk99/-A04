@@ -1,4 +1,4 @@
-from interface import interface
+from .interface import interface
 from FileManager import FileManager
 class ListInterface(interface):
     def __init__(self, file_manager):

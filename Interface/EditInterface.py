@@ -1,4 +1,4 @@
-from interface import interface
+from .interface import interface
 from utility import is_valid_date_str,is_valid_title_str
 class EditInterface(interface):
     def __init__(self, detail):
