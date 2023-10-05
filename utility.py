@@ -53,41 +53,49 @@ def is_valid_repeat(input_string):
         return False
 
 
-def is_last_day_of_month(date):
-    next_month = date.replace(day=28) + timedelta(days=4)
-    last_day = next_month - timedelta(days=next_month.day)
-    return date.day == last_day.day
+def get_valid_date(year,month,day):
+    if(is_valid_date(str(year)+"-"+str(month)+"-"+str(day))):
+        return datetime(year,month,day).date()
+    else:
+        if(month==13):
+            return get_valid_date(year+1,1,day)
+        return get_valid_date(year,month,day-1)
+
+def is_in_7days(input_date):
+    today=date.today()
+    return (input_date-today).days<=7 and (input_date-today).days>=0
+
+def is_later_todo(input_date):
+    today=date.today()
+    return (input_date-today).days>7
+
 
 def filter_by_year(input_date):
     today=date.today()
     input=datetime.strptime(input_date, "%Y-%m-%d").date()
-    if (today.year < input.year):
+    if (is_later_todo(input)):
         return False
-    return today.month==input.month and today.day==input.day
+    return is_in_7days(get_valid_date(today.year, input.month, input.day))##말일처리 다시
 
 
 def filter_by_month(input_date):
     today=date.today()
     input=datetime.strptime(input_date, "%Y-%m-%d").date()
-    if(today.year < input.year):
-        return  False
-    if(today.month < input.month):
+    if(is_later_todo(input)):##마감일이 오늘보다 늦으면
         return False
-    if(today.day==input.day):
-        return True
-    if(today.day<input.day and is_last_day_of_month(today)):
-        return True
-    return False
+    this_month_date=get_valid_date(today.year, today.month, input.day)
+    next_month_date=get_valid_date(today.year, today.month+1, input.day)
+    return is_in_7days(this_month_date) or is_in_7days(next_month_date)
 
 def filter_by_week(input_date):
-    today = date.today()
     input = datetime.strptime(input_date, "%Y-%m-%d").date()
-    return today.weekday()==input.weekday()
+    if (is_later_todo(input)):
+        return False
+    return True
 
-def filter_by_day(input_date):
-    today = date.today()
+def filter_by_none(input_date):
     input = datetime.strptime(input_date, "%Y-%m-%d").date()
-    return today==input
+    return is_in_7days(input)
 
 
 def input_menu(start, end, input_message):

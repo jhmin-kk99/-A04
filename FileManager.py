@@ -25,7 +25,7 @@ class FileManager:
         years_df = self.df[(self.df['반복'] == "매년") & self.df['마감 날짜'].apply(filter_by_year)]
         month_df = self.df[(self.df['반복'] == "매달") & self.df['마감 날짜'].apply(filter_by_month)]
         week_df = self.df[(self.df['반복'] == "매주") & self.df['마감 날짜'].apply(filter_by_week)]
-        none_df = self.df[(self.df['반복'] == "없음") & self.df['마감 날짜'].apply(filter_by_day)]
+        none_df = self.df[(self.df['반복'] == "없음") & self.df['마감 날짜'].apply(filter_by_none)]
         filter_df = pd.concat([years_df, month_df, week_df, none_df])
         filter_df['Index']=filter_df.index
         filter_df=filter_df.sort_values(by='마감 날짜')
