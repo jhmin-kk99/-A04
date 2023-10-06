@@ -3,7 +3,7 @@ from datetime import datetime, date, timedelta
 
 
 def is_valid_title(input_string):
-    pattern = r'^(?![␣])[␣a-zA-Z가-힣1-9]{1,10}$'
+    pattern = r'^(?![␣])[␣a-zA-Z가-힣]{1,10}$'
     if re.match(pattern, input_string):
         return True
     else:
@@ -11,7 +11,7 @@ def is_valid_title(input_string):
 
 
 def is_valid_title_str(input_string):
-    pattern = r'^(?![␣])[␣a-zA-Z가-힣1-9]{1,10}$'
+    pattern = r'^(?![␣])[␣a-zA-Z가-힣]{1,10}$'
     if re.match(pattern, input_string):
         return "True"
     else:
