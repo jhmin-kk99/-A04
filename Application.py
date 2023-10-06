@@ -5,7 +5,7 @@ from Interface.DetailInterface import DetailInterface
 from Interface.AddInterface import AddInterface
 from Interface.EditInterface import EditInterface
 
-class TodoApp:
+class Application:
     def __init__(self):
         self.file_manager = FileManager()
 
