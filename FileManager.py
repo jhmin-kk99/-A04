@@ -1,7 +1,6 @@
 import pandas as pd
 from utility import *
 
-
 class FileManager:
 
     def __init__(self):
@@ -19,13 +18,18 @@ class FileManager:
         self.df.to_csv(self.file_path, index=False)
 
     def get_data_by_index(self, index):
-        return self.df.loc[index].to_list()
+        list=self.df.loc[index].to_list()
+        list[1]=change_date_to_this_week(list[1],list[2])
+        return list
 
     def filter_todolist(self):
-        years_df = self.df[(self.df['반복'] == "매년") & self.df['마감 날짜'].apply(filter_by_year)]
-        month_df = self.df[(self.df['반복'] == "매달") & self.df['마감 날짜'].apply(filter_by_month)]
-        week_df = self.df[(self.df['반복'] == "매주") & self.df['마감 날짜'].apply(filter_by_week)]
-        none_df = self.df[(self.df['반복'] == "없음") & self.df['마감 날짜'].apply(filter_by_none)]
+        years_df = self.df[(self.df['반복'] == "매년") & self.df['마감 날짜'].apply(filter_by_year)].copy()
+        years_df['마감 날짜']=years_df['마감 날짜'].apply(change_date_to_this_week_year)
+        month_df = self.df[(self.df['반복'] == "매달") & self.df['마감 날짜'].apply(filter_by_month)].copy()
+        month_df['마감 날짜']=month_df['마감 날짜'].apply(change_date_to_this_week_month)
+        week_df = self.df[(self.df['반복'] == "매주") & self.df['마감 날짜'].apply(filter_by_week)].copy()
+        week_df['마감 날짜']=week_df['마감 날짜'].apply(change_date_to_this_week_weekday)
+        none_df = self.df[(self.df['반복'] == "없음") & self.df['마감 날짜'].apply(filter_by_none)].copy()
         filter_df = pd.concat([years_df, month_df, week_df, none_df])
         filter_df['Index']=filter_df.index
         filter_df=filter_df.sort_values(by='마감 날짜')
