@@ -5,12 +5,13 @@ from Interface.DetailInterface import DetailInterface
 from Interface.AddInterface import AddInterface
 from Interface.EditInterface import EditInterface
 from utility import is_valid_date
+from datetime import datetime
 class Application:
     def __init__(self):
         self.file_manager = FileManager()
 
     def run(self):##메인함수
-        self.today_date=self.input_today()
+        self.file_manager.today_date=self.input_today()
         if not self.file_manager.is_valid_file():##파일이 유효하지 않으면
             return##종료
         self.file_manager.sort_todolist()##파일 정렬
@@ -20,7 +21,7 @@ class Application:
         while True:
             today=input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
             if is_valid_date(today):
-                return today
+                return datetime.strptime(today, "%Y-%m-%d").date()
             else:
                 print("오류: 잘못 된 입력 입니다. 오늘 날짜를 YYYY-MM-DD 형식으로 입력해 주세요.")
     def main_menu(self):
