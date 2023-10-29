@@ -73,6 +73,8 @@ class Application:
             elif menu == 4:
                 edit_interface.edit_finish()
                 break
+            elif menu == 0:
+                break
             else:
                 print(edit_interface.err_message)
                 continue
