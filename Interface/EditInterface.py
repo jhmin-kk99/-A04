@@ -35,7 +35,7 @@ class EditInterface(interface):
     def edit_title(self):
         text = "<할일 수정하기>"
         text += self.todoText + "\n변경될 작업 이름을 입력하세요."
-        text += "TODO/할일 수정 - 작업>"
+        text += "\nTODO/할일 수정 - 작업>"
         while True:
             title = input(text)
             is_valid = is_valid_title_str(title)
@@ -50,7 +50,7 @@ class EditInterface(interface):
     def edit_date(self):
         text = "<할일 수정하기>"
         text += self.todoText + "\n변경될 마감일을 입력하세요."
-        text += "TODO/할일 수정 - 마감>"
+        text += "\nTODO/할일 수정 - 마감>"
         while True:
             date = input(text)
             is_valid = is_valid_date_str(date)
@@ -65,7 +65,7 @@ class EditInterface(interface):
     def edit_start_date(self):
         text = "<할일 수정하기>"
         text += self.todoText + "\n변경될 시작일을 입력하세요."
-        text += "TODO/할일수정 - 시작일(시작일이 없다면 'x'를 입력하세요.)\n"
+        text += "\nTODO/할일수정 - 시작일(시작일이 없다면 'x'를 입력하세요.)\n"
         while (True):
             date = input(text)
             if (date == "x"):##시작일이 없다면
