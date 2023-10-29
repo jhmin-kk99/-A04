@@ -116,7 +116,7 @@ class AddInterface(interface):
         text +=self.middle_text
         text += "추가할 할일의 마감 날짜를 입력해 주세요.\n" \
                 "마감 날짜(반복을 시작하는 경계 날짜)\n" \
-                "만약 반복: 없음으로 설정했다면, 마감 날짜가 마감일이 됩니다."
+                "만약 반복: 없음으로 설정했다면, 마감 날짜가 마감일이 됩니다.\n"
         text += "TODO/할일추가 - 마감 날짜\n"
         while (True):
             date = input(text)
