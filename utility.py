@@ -4,7 +4,7 @@ from constants import TODAY
 
 
 def is_valid_title(input_string):
-    pattern = r'^(?![␣])[␣a-zA-Z가-힣1-9]{1,10}$'
+    pattern = r'^(?![ ])[ a-zA-Z가-힣1-9]{1,10}$'
     if re.match(pattern, input_string):
         return True
     else:
@@ -12,16 +12,16 @@ def is_valid_title(input_string):
 
 
 def is_valid_title_str(input_string):
-    pattern = r'^(?![␣])[␣a-zA-Z가-힣1-9]{1,10}$'
+    pattern = r'^(?![ ])[ a-zA-Z가-힣1-9]{1,10}$'
     if re.match(pattern, input_string):
         return "True"
     else:
         if len(input_string) < 1 or len(input_string) > 10:
             return "오류: 길이가 1 이상 10 이하가 아닙니다."
-        if not input_string[0].isalpha() and not input_string[0].isspace():
-            return "오류: 첫 문자가 알파벳 또는 띄어쓰기(␣)가 아닙니다."
-        if not re.match(r'[a-zA-Z가-힣\s]*$', input_string):
-            return "오류: 알파벳, 한글, 띄어쓰기(␣) 이외의 문자가 포함되어 있습니다."
+        if input_string[0] == ' ':
+            return "오류: 작업 이름은 공백으로 시작할 수 없습니다."
+        if not re.match(r'[ a-zA-Z가-힣1-9]*$', input_string):
+            return "오류: 알파벳, 한글, 숫자, 띄어쓰기(␣) 이외의 문자가 포함되어 있습니다."
         return "False"
 
 
