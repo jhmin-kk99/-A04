@@ -49,8 +49,8 @@ class EditInterface(interface):
 
     def edit_date(self):
         text = "<할일 수정하기>"
-        text += self.todoText + "\n변경될 마감일을 입력하세요."
-        text += "\nTODO/할일 수정 - 마감>"
+        text += self.todoText + "\n변경될 마감 날짜를 입력하세요."
+        text += "\nTODO/할일 수정 - 마감 날짜>"
         while True:
             date = input(text)
             is_valid = is_valid_date_str(date)
