@@ -5,10 +5,10 @@ class ListInterface(interface):
         self.file_manager=file_manager
         self.filteredData = self.file_manager.filter_todolist()
         self.err_message = "오류: 잘못 된 입력 입니다. 이동하려는 할일의 번호를 정확히 숫자로 입력해 주세요"
-        self.range = min(10,len(self.filteredData))
 
     def CLI(self):
         self.filteredData = self.file_manager.filter_todolist()
+        self.range = min(10,len(self.filteredData))
         if self.filteredData.empty == True:
             self.text = "<TODO List>\n"
             self.text += "할일이 없습니다."
