@@ -26,6 +26,8 @@ class Application:
                 self.add_menu()
                 self.select_menu()  ##추가하고 리스트
             else:
+                self.file_manager.sort_todolist()  ##파일 정렬
+                ##종료
                 break
 
     def add_menu(self):
