@@ -87,6 +87,8 @@ class FileManager:
         return self.filtered_df
 
     def is_valid_file(self):
+        valid = True
+        notValidIndices = []
         for index, row in self.df.iterrows():
             row_data = {'index': index, 'data': row.to_dict()}
             if (is_valid_title(row_data['data']['작업 이름'])
@@ -98,9 +100,14 @@ class FileManager:
             ):
                 continue
             else:
-                print(f'오류: 데이터 파일 TodoList_Datas.csv에 문법 규칙과 의미 규칙에 위배되는 행이 {index + 2}행에 존재합니다.')
-                return False
-        return True
+                valid = False
+                notValidIndices.append(str(index+2)+"행")
+            
+        if valid == False :
+            errStr = ",".join(notValidIndices)
+            print(f'오류: 데이터 파일 TodoList_Datas.csv에 문법 규칙과 의미 규칙에 위배되는 행이 {errStr}에 존재합니다.')
+
+        return valid
 
     def delete_todo(self, index):
         self.df.drop(index, inplace=True)
