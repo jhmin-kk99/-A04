@@ -8,7 +8,7 @@ class FileManager:
         self.file_path = "./resource/TodoList_Datas.csv"
         try:
             self.df = pd.read_csv(self.file_path)
-        except FileNotFoundError:
+        except (FileNotFoundError, pd.errors.EmptyDataError):
             self.df = pd.DataFrame({
                 "작업 이름": [], "마감 날짜": [], "반복": [], "시작 날짜": [], "완료": [], "반복 세부": [],"반복 마감": []
             })
