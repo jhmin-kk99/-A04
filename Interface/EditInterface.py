@@ -90,8 +90,8 @@ class EditInterface(interface):
 ##그래서 그냥 Listinterface로 돌아가는게 좋을 듯 하다.
     def edit_repeat(self):
         text = "<할일 수정하기>"
-        text += self.todoText + "\n반복 여부을 입력하세요."
-        text += "반복 여부를 선택하세요.\n 1. 없음\n 2. 매주\n 3. 매달\n 4. 매년\n"
+        text += self.todoText
+        text += "\n반복 여부를 선택하세요.\n 1. 없음\n 2. 매주\n 3. 매달\n 4. 매년\n"
         text += "TODO/할일 수정 - 반복>"
         menu = input_menu(1, 4, text)
         menu_list = ["-", "없음", "매주", "매달", "매년"]
@@ -148,7 +148,7 @@ class EditInterface(interface):
 
     def edit_finish(self):
         text = "<할일 수정하기>\n"
-        text += "TODO/할일수정 - 완료일 (미완료이면 'x' 입력, 완료면 'o' 입력)\n"
+        text += "TODO/할일수정 - 완료 여부 (미완료이면 'x' 입력, 완료면 'o' 입력)\n"
         while (True):
             OX = input(text)
             if OX=="x":
