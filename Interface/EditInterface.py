@@ -1,6 +1,6 @@
 from .interface import interface
 from utility import is_valid_date_str, is_valid_title_str, is_valid_day_detail_str, is_valid_year_detail_str, \
-    is_valid_month_detail_str, get_start_date, is_completed, diff_date
+    is_valid_month_detail_str, get_start_date, is_completed, diff_date, input_menu
 
 
 class EditInterface(interface):
@@ -93,18 +93,7 @@ class EditInterface(interface):
         text += self.todoText + "\n반복 여부을 입력하세요."
         text += "반복 여부를 선택하세요.\n 1. 없음\n 2. 매주\n 3. 매달\n 4. 매년\n"
         text += "TODO/할일 수정 - 반복>"
-        range = 4
-        err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요."
-        while (True):
-            try:
-                menu = int(input(text))
-                if (menu <= 0 or menu > range):
-                    print(err_message)
-                    continue
-                else:
-                    break
-            except ValueError:
-                print(err_message)
+        menu = input_menu(1, 4, text)
         menu_list = ["-", "없음", "매주", "매달", "매년"]
         menu = menu_list[menu]
         self.file_manager.edit_todo(self.index, '반복', menu)
@@ -114,25 +103,28 @@ class EditInterface(interface):
     def edit_repeat_detail(self):
         if (self.detail.repeat == "매주"):
             while True:
-                message = input("반복 요일을 선택하세요. ex) 월/화/수\n").strip()
-                if (is_valid_day_detail_str(message) == "True"):
+                message = input("반복 요일을 선택하세요. ex) 월/화/수\n")
+                ret = is_valid_day_detail_str(message)
+                if (ret == "True"):
                     break
                 else:
-                    print(message)
+                    print(ret)
         elif (self.detail.repeat == "매달"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n").strip()
-                if (is_valid_month_detail_str(message) == "True"):
+                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n")
+                ret = is_valid_month_detail_str(message)
+                if (ret == "True"):
                     break
                 else:
-                    print(message)
+                    print(ret)
         elif (self.detail.repeat == "매년"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n").strip()
-                if (is_valid_year_detail_str(message) == "True"):
+                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n")
+                ret = is_valid_year_detail_str(message)
+                if (ret == "True"):
                     break
                 else:
-                    print(message)
+                    print(ret)
         else:
             message = "x"
         self.file_manager.edit_todo(self.index, '반복 세부', message).strip()
