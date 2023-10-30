@@ -13,7 +13,6 @@ class Application:
     def run(self):  ##메인함수
         if not self.file_manager.is_valid_file():  ##파일이 유효하지 않으면
             return  ##종료
-        self.file_manager.sort_todolist()  ##파일 정렬
         self.main_menu()  ##메인메뉴 실행
 
     def main_menu(self):

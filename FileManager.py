@@ -8,6 +8,10 @@ class FileManager:
         self.file_path = "./resource/TodoList_Datas.csv"
         try:
             self.df = pd.read_csv(self.file_path)
+            self.sort_todolist() ## 파일 정렬
+        except PermissionError: 
+            print("오류: 데이터 파일 TodoList_Datas.csv에 대한 입출력 권한이 없습니다. 프로그램을 종료합니다.")
+            exit()
         except (FileNotFoundError, pd.errors.EmptyDataError):
             self.df = pd.DataFrame({
                 "작업 이름": [], "마감 날짜": [], "반복": [], "시작 날짜": [], "완료": [], "반복 세부": [],"반복 마감": []
