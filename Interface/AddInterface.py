@@ -2,7 +2,7 @@ from datetime import datetime
 
 from .interface import interface
 from utility import is_valid_title_str, is_valid_date_str, \
-    input_menu, is_valid_day_detail_str, is_valid_month_detail_str, is_valid_year_detail_str, diff_date,\
+    input_menu, is_valid_day_detail_str, is_valid_month_detail_str, is_valid_year_detail_str, diff_date, \
     change_date_to_this_week_year, change_date_to_this_week_month, change_date_to_this_week_weekday
 
 
@@ -101,8 +101,8 @@ class AddInterface(interface):
         while (True):
             date = input(text)
             if (date == "x"):
-                self.stop_repeat = date
-                break
+                    self.stop_repeat = date
+                    break
             if (is_valid_date_str(date) == "True"):
                 self.stop_repeat = date
                 break
@@ -137,6 +137,7 @@ class AddInterface(interface):
             date = input(text)
             if (date == "x"):
                 self.start_date = "x"
+                self.diff = diff_date(self.finish_date, self.today)
                 break
             elif (is_valid_date_str(date) == "True"):
                 self.diff = diff_date(self.finish_date, date)
