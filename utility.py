@@ -125,8 +125,8 @@ def is_valid_year_detail_str(input_text):
             return "오류: 월을 다시 입력해 주세요."
         if (day > 31):
             return "오류: 일을 다시 입력해 주세요."
-        if (month == 2 and day > 29):
-            return "오류: 2월은 29일은 반복으로 설정할 수 없는 날짜입니다." # 기획서(요구사항분석서) 수정?
+        if (month in [4, 6, 9, 11] and day > 30) or (month == 2 and day > 29):
+            return "오류: 일을 다시 입력해 주세요."
     return "True"
 
 

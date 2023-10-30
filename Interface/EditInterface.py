@@ -8,7 +8,7 @@ class EditInterface(interface):
         self.detail = detail
         self.index = detail.index
         self.file_manager = detail.file_manager
-        self.err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요."
+        self.err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요.\n"
         self.range = 4
 
     def CLI(self):
@@ -19,7 +19,7 @@ class EditInterface(interface):
                         "\n반복 세부: " + self.detail.repeat_detail + "\n반복 정지: " + self.detail.stop_repeat + "\n완료: " + \
                         self.detail.completed
         self.text += self.todoText
-        self.text += "\n1.작업 수정하기" \
+        self.text += "\n\n1.작업 수정하기" \
                      "\n2.날짜 수정하기" \
                      "\n3.반복 수정하기" \
                      "\n4.완료 수정하기" \
@@ -127,7 +127,7 @@ class EditInterface(interface):
                     print(ret)
         else:
             message = "x"
-        self.file_manager.edit_todo(self.index, '반복 세부', message).strip()
+        self.file_manager.edit_todo(self.index, '반복 세부', message)
         self.detail.repeat_detail = message
         self.update_todo_text()
         ##반복이 바뀌면 마감일이 바뀌어야 한다.
