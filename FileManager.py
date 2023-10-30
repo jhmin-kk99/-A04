@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 from utility import *
 
@@ -8,6 +9,8 @@ class FileManager:
         self.file_path = "./resource/TodoList_Datas.csv"
         try:
             self.df = pd.read_csv(self.file_path)
+            if not self.is_valid_file() :
+                sys.exit(0)
             self.sort_todolist() ## 파일 정렬
         except PermissionError: 
             print("오류: 데이터 파일 TodoList_Datas.csv에 대한 입출력 권한이 없습니다. 프로그램을 종료합니다.")
@@ -105,11 +108,20 @@ class FileManager:
                 continue
             else:
                 valid = False
-                notValidIndices.append(str(index+2)+"행")
+                notValidIndices.append(index+2)
             
         if valid == False :
-            errStr = ",".join(notValidIndices)
+            f = open(self.file_path, 'r', encoding='utf8')
+            csvLines = f.readlines()
+            f.close()
+
+            errStr = ",".join([(str(i)+"행") for i in notValidIndices])
+
             print(f'오류: 데이터 파일 TodoList_Datas.csv에 문법 규칙과 의미 규칙에 위배되는 행이 {errStr}에 존재합니다.')
+            print()
+            for i in notValidIndices :
+                print("\t"+csvLines[i-1], end="")
+            print()
 
         return valid
 
