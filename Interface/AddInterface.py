@@ -137,7 +137,7 @@ class AddInterface(interface):
             date = input(text)
             if (date == "x"):
                 self.start_date = "x"
-                self.diff = diff_date(self.finish_date, self.today)
+                self.diff = "x"
                 break
             elif (is_valid_date_str(date) == "True"):
                 self.diff = diff_date(self.finish_date, date)
