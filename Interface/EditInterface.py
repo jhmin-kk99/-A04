@@ -114,28 +114,28 @@ class EditInterface(interface):
     def edit_repeat_detail(self):
         if (self.detail.repeat == "매주"):
             while True:
-                message = input("반복 요일을 선택하세요. ex) 월/화/수\n")
+                message = input("반복 요일을 선택하세요. ex) 월/화/수\n").strip()
                 if (is_valid_day_detail_str(message) == "True"):
                     break
                 else:
                     print(message)
         elif (self.detail.repeat == "매달"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n")
+                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n").strip()
                 if (is_valid_month_detail_str(message) == "True"):
                     break
                 else:
                     print(message)
         elif (self.detail.repeat == "매년"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n")
+                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n").strip()
                 if (is_valid_year_detail_str(message) == "True"):
                     break
                 else:
                     print(message)
         else:
             message = "x"
-        self.file_manager.edit_todo(self.index, '반복 세부', message)
+        self.file_manager.edit_todo(self.index, '반복 세부', message).strip()
         self.detail.repeat_detail = message
         self.update_todo_text()
         ##반복이 바뀌면 마감일이 바뀌어야 한다.
