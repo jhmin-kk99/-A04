@@ -102,7 +102,7 @@ def is_valid_month_detail_str(input_text):
         return "오류: 날짜를 다시 입력해 주세요."
     input_list = input_text.split("/")
     if len(input_list) != len(set(input_list)):
-        return "오류: 중복된 월이 있습니다."
+        return "오류: 중복된 일이 있습니다."
     menu_list = [str(i) for i in range(1, 32)]
     for i in input_list:
         if not i in menu_list:
@@ -123,7 +123,7 @@ def is_valid_year_detail_str(input_text):
         day = int(i.split("-")[1])
         if (month not in month_list):
             return "오류: 월을 다시 입력해 주세요."
-        if (day > 31):
+        if (day > 31 or day < 1):
             return "오류: 일을 다시 입력해 주세요."
         if (month in [4, 6, 9, 11] and day > 30) or (month == 2 and day > 29):
             return "오류: 일을 다시 입력해 주세요."
