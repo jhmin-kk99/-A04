@@ -68,7 +68,7 @@ class AddInterface(interface):
         text += self.middle_text
         if (self.repeat == "매주"):
             while True:
-                message = input("반복 요일을 선택하세요. ex) 월/화/수\n")
+                message = input("반복 요일을 선택하세요. ex) 월/화/수\n").strip()
                 if (is_valid_day_detail_str(message) == "True"):
                     self.repeat_detail = message
                     break
@@ -76,7 +76,7 @@ class AddInterface(interface):
                     print(message)
         elif (self.repeat == "매달"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n")
+                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n").strip()
                 if (is_valid_month_detail_str(message) == "True"):
                     self.repeat_detail = message
                     break
@@ -84,7 +84,7 @@ class AddInterface(interface):
                     print(message)
         elif (self.repeat == "매년"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n")
+                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n").strip()
                 if (is_valid_year_detail_str(message) == "True"):
                     self.repeat_detail = message
                     break
