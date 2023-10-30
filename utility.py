@@ -80,34 +80,27 @@ def is_valid_detail(input_date, repeat):
 
 
 def is_valid_date_str(input_date):
+    if (not re.match(r"\d{4}-\d{2}-\d{2}$", input_date)):
+        return "오류: 날짜는 YYYY-MM-DD 형태로 입력해야 합니다."
     try:
         datetime.strptime(input_date, '%Y-%m-%d')
+        return "True"
     except ValueError:
-        return "오류: 날짜를 입력해 주세요."
-
-    year, month, day = map(int, input_date.split('-'))
-
-    if year < 1000 or year > 9999 or month < 1 or month > 12 or day < 1 or day > 31:
-        return "오류: 날짜는 YYYY-MM-DD 형태로 입력해야 합니다."
-
-    if (month in [4, 6, 9, 11] and day > 30) or (month == 2 and day > 29):
         return "오류: 정의되지 않은 날짜 입니다."
-    return "True"
-
 
 def is_valid_day_detail_str(input_text):
-    input_list = input_text.strip().split("/")
+    if (not re.match(r"([월화수목금토일]\/)*[월화수목금토일]$", input_text)):
+        return "오류: 요일을 다시 입력해 주세요."
+    input_list = input_text.split("/")
     if len(input_list) != len(set(input_list)):
         return "오류: 중복된 요일이 있습니다."
-    menu_list = ["월", "화", "수", "목", "금", "토", "일"]
-    for i in input_list:
-        if not i in menu_list:
-            return "오류: 요일을 다시 입력해 주세요."
     return "True"
 
 
 def is_valid_month_detail_str(input_text):
-    input_list = input_text.strip().split("/")
+    if (not re.match(r"(\d{1,2}\/)*\d{1,2}$", input_text)):
+        return "오류: 날짜를 다시 입력해 주세요."
+    input_list = input_text.split("/")
     if len(input_list) != len(set(input_list)):
         return "오류: 중복된 월이 있습니다."
     menu_list = [str(i) for i in range(1, 32)]
@@ -118,20 +111,22 @@ def is_valid_month_detail_str(input_text):
 
 
 def is_valid_year_detail_str(input_text):
-    input_list = input_text.strip().split("/")
+    if (not re.match(r"(\d{2}-\d{2}\/)*(\d{2}-\d{2})$", input_text)):
+        return "오류: MM-DD 혹은 MM-DD/MM-DD/... 형식으로 입력해 주세요."
+    input_list = input_text.split("/")
     if len(input_list) != len(set(input_list)):
         return "오류: 중복된 날짜가 있습니다."
     ##input_text 양식 12-31/10-13
-    menu_list = [str(i) for i in range(1, 13)]  ##월
+    month_list = [i for i in range(1, 13)]  ##월
     for i in input_list:
-        month = i.split("-")[0]
-        day = i.split("-")[1]
-        if (month not in menu_list):
+        month = int(i.split("-")[0])
+        day = int(i.split("-")[1])
+        if (month not in month_list):
             return "오류: 월을 다시 입력해 주세요."
-        if (int(day) > 31):
+        if (day > 31):
             return "오류: 일을 다시 입력해 주세요."
-        if (month == "2" and int(day) > 29):
-            return "오류: 2월은 29일까지 있습니다."
+        if (month == 2 and day > 29):
+            return "오류: 2월은 29일은 반복으로 설정할 수 없는 날짜입니다." # 기획서(요구사항분석서) 수정?
     return "True"
 
 
@@ -233,10 +228,14 @@ def change_date_to_this_week_weekday(weekday, today):
 
 def input_menu(start, end, input_message):
     err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요."
-    while True:
+    return get_menu_input(input_message, err_message, start, end)
+
+def get_menu_input(input_message, err_message, start, end):
+    while (True):
         try:
-            menu = int(input(input_message))
-            if (menu < start or menu >= end):
+            input_str = input(input_message)
+            menu = int(input_str)
+            if (menu < start or menu > end or len(input_str) != int(menu / 10) + 1):
                 print(err_message)
                 continue
             else:

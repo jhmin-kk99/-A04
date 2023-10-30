@@ -59,37 +59,41 @@ class AddInterface(interface):
                 "  4. 매년\n"
         text += "TODO/할일추가 - 작업\n"
         menu_list = ["-", "없음", "매주", "매달", "매년"]
-        self.repeat = menu_list[input_menu(1, 5, text)]
+        self.repeat = menu_list[input_menu(1, 4, text)]
         self.middle_text+= "반복: " + self.repeat + "\n"
 
     def ask_repeat_detail(self):
         self.repeat_detail = "x"
         text = "<할일 추가하기>\n"
         text += self.middle_text
+        
         if (self.repeat == "매주"):
             while True:
-                message = input("반복 요일을 선택하세요. ex) 월/화/수\n").strip()
-                if (is_valid_day_detail_str(message) == "True"):
+                message = input("반복 요일을 선택하세요. ex) 월/화/수\n")
+                ret = is_valid_day_detail_str(message)
+                if (ret == "True"):
                     self.repeat_detail = message
                     break
                 else:
-                    print(message)
+                    print(ret)
         elif (self.repeat == "매달"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n").strip()
-                if (is_valid_month_detail_str(message) == "True"):
+                message = input("반복 날짜를 선택하세요. ex) 1/2/3.../31\n")
+                ret = is_valid_month_detail_str(message)
+                if (ret == "True"):
                     self.repeat_detail = message
                     break
                 else:
-                    print(message)
+                    print(ret)
         elif (self.repeat == "매년"):
             while True:
-                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n").strip()
-                if (is_valid_year_detail_str(message) == "True"):
+                message = input("반복 날짜를 선택하세요. ex)12-31/10-13\n")
+                ret = is_valid_year_detail_str(message)
+                if (ret == "True"):
                     self.repeat_detail = message
                     break
                 else:
-                    print(message)
+                    print(ret)
         self.middle_text+= "반복 세부: " + self.repeat_detail + "\n"
 
 
