@@ -17,13 +17,12 @@ class FileManager:
         self.filtered_df = pd.DataFrame()
 
     def input_today(self):
-        return datetime.date(datetime.now()).strftime("%Y-%m-%d")
-        # while True:
-        #     todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
-        #     if is_valid_date(todaystr):
-        #         return todaystr
-        #     else:
-        #         print("오류: 잘못 된 입력 입니다. 오늘 날짜를 YYYY-MM-DD 형식으로 입력해 주세요.")
+        while True:
+            todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD)/ 다른 입력을 하면 자동으로 오늘 날짜로 설정됩니다.: ")
+            if is_valid_date(todaystr):
+                return todaystr
+            else:
+                return datetime.date(datetime.now()).strftime("%Y-%m-%d")
 
     def sort_todolist(self):
         self.df = self.df.sort_values(by='마감 날짜')
