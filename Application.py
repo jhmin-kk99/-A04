@@ -66,14 +66,11 @@ class Application:
                 edit_interface.edit_date()
                 edit_interface.edit_start_date()
                 edit_interface.edit_stop_repeat()
-                break
             elif menu == 3:
                 edit_interface.edit_repeat()
                 edit_interface.edit_repeat_detail()
-                break
             elif menu == 4:
                 edit_interface.edit_finish()
-                break
             elif menu == 0:
                 break
             else:
