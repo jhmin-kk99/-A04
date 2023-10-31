@@ -9,6 +9,7 @@ class FileManager:
         self.file_path = "./resource/TodoList_Datas.csv"
         try:
             self.df = pd.read_csv(self.file_path)
+            self.df = self.df.fillna("")
             if not self.is_valid_file() :
                 sys.exit(0)
             self.sort_todolist() ## 파일 정렬
