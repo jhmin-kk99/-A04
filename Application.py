@@ -11,8 +11,6 @@ class Application:
         self.file_manager = FileManager()
 
     def run(self):  ##메인함수
-        if not self.file_manager.is_valid_file():  ##파일이 유효하지 않으면
-            return  ##종료
         self.main_menu()  ##메인메뉴 실행
 
     def main_menu(self):

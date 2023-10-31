@@ -42,6 +42,14 @@ def is_valid_start_date(input_date):
     except ValueError:
         return False
 
+def is_valid_repeat_end_date(input_date):
+    if (input_date == "x"):
+        return True
+    try:
+        int(input_date)
+        return True
+    except ValueError:
+        return False
 
 def is_valid_finish(input_date):
     if (input_date == "x"):
