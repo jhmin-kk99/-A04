@@ -113,6 +113,7 @@ class FileManager:
                         and is_valid_repeat(row_data['data']['반복'])
                         and is_valid_finish(row_data['data']['완료'])
                         and is_valid_detail(row_data['data']['반복 세부'], row_data['data']['반복'])
+                        and is_valid_repeat_end_date(row_data['data']['반복 정지'])
                 ):
                     continue
                 else:
