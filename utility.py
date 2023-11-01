@@ -46,7 +46,7 @@ def is_valid_repeat_end_date(input_date):
     if (input_date == "x"):
         return True
     try:
-        int(input_date)
+        datetime.strptime(input_date, '%Y-%m-%d')
         return True
     except ValueError:
         return False
