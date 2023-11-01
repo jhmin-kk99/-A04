@@ -15,7 +15,7 @@ class FileManager:
             self.sort_todolist() ## 파일 정렬
         except PermissionError: 
             print("오류: 데이터 파일 TodoList_Datas.csv에 대한 입출력 권한이 없습니다. 프로그램을 종료합니다.")
-            exit()
+            sys.exit(0)
         except (FileNotFoundError, pd.errors.EmptyDataError):
             self.df = pd.DataFrame({
                 "작업 이름": [], "마감 날짜": [], "시작 날짜": [], "반복": [], "반복 세부": [],"반복 정지": [], "완료": []
@@ -97,37 +97,44 @@ class FileManager:
     def is_valid_file(self):
         valid = True
         notValidIndices = []
-        f = open(self.file_path, 'r', encoding='utf8')
-        csvLines = f.readlines()
-        f.close()
 
-        if csvLines[0] != "작업 이름,마감 날짜,시작 날짜,반복,반복 세부,반복 정지,완료\n" :
-            valid = False
+        order_colnames = ["작업 이름","마감 날짜","시작 날짜","반복","반복 세부","반복 정지","완료"]
+        file_colnames = list(self.df.columns)
+        if (len(file_colnames) != len(order_colnames)):
             print("오류 : 데이터 파일의 헤더행이 잘못되어 파일을 정상적으로 읽을 수 없었습니다.")
-        else :
-            for index, row in self.df.iterrows():
-                row_data = {'index': index, 'data': row.to_dict()}
-                if (is_valid_title(row_data['data']['작업 이름'])
-                        and is_valid_date(row_data['data']['마감 날짜'])
-                        and is_valid_start_date(row_data['data']['시작 날짜'])
-                        and is_valid_repeat(row_data['data']['반복'])
-                        and is_valid_finish(row_data['data']['완료'])
-                        and is_valid_detail(row_data['data']['반복 세부'], row_data['data']['반복'])
-                        and is_valid_repeat_end_date(row_data['data']['반복 정지'])
-                ):
-                    continue
-                else:
-                    valid = False
-                    notValidIndices.append(index+2)
+            return False
+        for i in range(len(file_colnames)):
+            if not file_colnames[i] == order_colnames[i] :
+                print("오류 : 데이터 파일의 헤더행이 잘못되어 파일을 정상적으로 읽을 수 없었습니다.")
+                return False
             
-            if valid == False :
-                errStr = ",".join([(str(i)+"행") for i in notValidIndices])
+        for index, row in self.df.iterrows():
+            row_data = {'index': index, 'data': row.to_dict()}
+            if (is_valid_title(row_data['data']['작업 이름'])
+                    and is_valid_date(row_data['data']['마감 날짜'])
+                    and is_valid_start_date(row_data['data']['시작 날짜'])
+                    and is_valid_repeat(row_data['data']['반복'])
+                    and is_valid_finish(row_data['data']['완료'])
+                    and is_valid_detail(row_data['data']['반복 세부'], row_data['data']['반복'])
+                    and is_valid_repeat_end_date(row_data['data']['반복 정지'])
+            ):
+                continue
+            else:
+                valid = False
+                notValidIndices.append(index+2)
+        
+        if valid == False :
+            f = open(self.file_path, 'r', encoding='utf8')
+            csvLines = f.readlines()
+            f.close()
+            
+            errStr = ",".join([(str(i)+"행") for i in notValidIndices])
 
-                print(f'오류: 데이터 파일 TodoList_Datas.csv에 문법 규칙과 의미 규칙에 위배되는 행이 {errStr}에 존재합니다.')
-                print()
-                for i in notValidIndices :
-                    print("\t"+csvLines[i-1], end="")
-                print()
+            print(f'오류: 데이터 파일 TodoList_Datas.csv에 문법 규칙과 의미 규칙에 위배되는 행이 {errStr}에 존재합니다.')
+            print()
+            for i in notValidIndices :
+                print("\t"+csvLines[i-1], end="")
+            print()
 
         return valid
 
