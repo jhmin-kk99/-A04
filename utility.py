@@ -216,9 +216,9 @@ def change_date_to_this_week_month(DD, today):
         this_month_date = get_valid_date(int(today.year), today.month, int(DD))
         next_month_date = get_valid_date(int(today.year), today.month + 1, int(DD))
         if (is_in_7days(this_month_date, today.strftime("%Y-%m-%d"))):
-            return this_month_date
+            return datetime.strptime(this_month_date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
         elif (is_in_7days(next_month_date, today.strftime("%Y-%m-%d"))):
-            return next_month_date
+            return datetime.strptime(next_month_date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
         else:
             return "1111-11-11"
     else:
