@@ -175,6 +175,14 @@ def compare_date_bool(dateA, date_B):
     date_B = datetime.strptime(date_B, "%Y-%m-%d").date()
     return dateA > date_B  ##dateA가 더 늦으면 True
 
+def compare_date_bool_include_equal(dateA, date_B):
+    if (dateA == "x"):
+        return True
+    dateA = datetime.strptime(dateA, "%Y-%m-%d").date()
+    date_B = datetime.strptime(date_B, "%Y-%m-%d").date()
+    return dateA >= date_B  ##dateA가 더 늦으면 True
+
+
 
 def diff_date(input_date, today_date):
     input = datetime.strptime(input_date, "%Y-%m-%d").date()

@@ -89,7 +89,7 @@ class FileManager:
         ##반복 정지 날짜가 수정 날짜보다 느린 것만 필터링
         filter_df=filter_df[filter_df.apply(lambda row: compare_date_bool(row['반복 정지'], row['수정 날짜']), axis=1)].copy()
         ##수정 날짜가 마감 날짜보다 느린 것만 필터링
-        filter_df=filter_df[filter_df.apply(lambda row: compare_date_bool(row['수정 날짜'], row['마감 날짜']), axis=1)].copy()
+        filter_df=filter_df[filter_df.apply(lambda row: compare_date_bool_include_equal(row['수정 날짜'], row['마감 날짜']), axis=1)].copy()
         ##필터링된 데이터프레임 정렬
         filter_df=filter_df.sort_values(by='수정 날짜')
         filter_df['Index']=filter_df.index
