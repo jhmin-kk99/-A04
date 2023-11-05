@@ -1,6 +1,5 @@
 import re
 from datetime import datetime, date, timedelta
-from constants import TODAY
 
 
 def is_valid_title(input_string):
