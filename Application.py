@@ -44,8 +44,8 @@ class Application:
             row = list_interface.get_row_by_user(menu)  ##인덱스 가져오기(리스트 기준이 아니라 파일 기준 인덱스)
             self.detail_menu(row)  ##상세보기
 
-    def detail_menu(self, row):
-        detail_interface = DetailInterface(row, self.file_manager)
+    def detail_menu(self, index):
+        detail_interface = DetailInterface(index, self.file_manager)
         menu = detail_interface.CLI()
         if menu == 2:  ##삭제
             detail_interface.delete_todo()  ##삭제하고 리스트
