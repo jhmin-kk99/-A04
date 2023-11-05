@@ -5,6 +5,8 @@ from constants import TODAY
 
 def is_valid_title(input_string):
     pattern = r'^(?![ ])[ a-zA-Z가-힣0-9]{1,10}$'
+    if isinstance(input_string, int):
+        input_string = str(input_string)
     if re.match(pattern, input_string):
         return True
     else:
