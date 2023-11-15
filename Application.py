@@ -1,14 +1,15 @@
 from FileManager import FileManager
+from TodoManager import TodoManager
 from Interface.MainInterface import MainInterface
 from Interface.ListInterface import ListInterface
 from Interface.DetailInterface import DetailInterface
 from Interface.AddInterface import AddInterface
 from Interface.EditInterface import EditInterface
-
-
+from Interface.SearchInterface import SearchInterface
 class Application:
     def __init__(self):
         self.file_manager = FileManager()
+        self.todo_manager = TodoManager(self.file_manager)
 
     def run(self):  ##메인함수
         self.main_menu()  ##메인메뉴 실행
@@ -22,30 +23,34 @@ class Application:
             elif menu == 2:  # 추가
                 self.add_menu()
                 self.select_menu()  ##추가하고 리스트
+            elif menu == 3:  # 검색
+                self.search_menu()
             else:
-                self.file_manager.sort_todolist()  ##파일 정렬
-                ##종료
+                self.file_manager.save_csv(self.todo_manager.get_save_todos())  ##파일 정렬
                 break
 
     def add_menu(self):
-        add_interface = AddInterface(self.file_manager)
+        add_interface = AddInterface(self.todo_manager)
         while True:
             menu = add_interface.CLI()
             if menu == 0:  # 종료
                 return
-            ##계속 추가
-
-    def select_menu(self):
-        list_interface = ListInterface(self.file_manager)
+    def search_menu(self):
+        search_interface = SearchInterface(self.todo_manager)
+        search_interface.CLI()
+        funcs=search_interface.get_funcs()
+        self.select_menu(funcs)
+    def select_menu(self,funcs=None):
+        list_interface = ListInterface(self.todo_manager,funcs)
         while True:
             menu = list_interface.CLI()
             if menu == 0:
                 return
-            row = list_interface.get_row_by_user(menu)  ##인덱스 가져오기(리스트 기준이 아니라 파일 기준 인덱스)
-            self.detail_menu(row)  ##상세보기
+            data = list_interface.get_detail_data(menu)  ##인덱스 가져오기(리스트 기준이 아니라 파일 기준 인덱스)
+            self.detail_menu(data)  ##상세보기
 
-    def detail_menu(self, index):
-        detail_interface = DetailInterface(index, self.file_manager)
+    def detail_menu(self, data):
+        detail_interface = DetailInterface(self.todo_manager, data)
         menu = detail_interface.CLI()
         if menu == 2:  ##삭제
             detail_interface.delete_todo()  ##삭제하고 리스트

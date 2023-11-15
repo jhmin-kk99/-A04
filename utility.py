@@ -43,6 +43,7 @@ def is_valid_start_date(input_date):
     except ValueError:
         return False
 
+
 def is_valid_repeat_end_date(input_date):
     if (input_date == "x"):
         return True
@@ -51,6 +52,7 @@ def is_valid_repeat_end_date(input_date):
         return True
     except ValueError:
         return False
+
 
 def is_valid_finish(input_date):
     if (input_date == "x"):
@@ -88,6 +90,19 @@ def is_valid_detail(input_date, repeat):
     return False
 
 
+def is_valid_theme_str(input_text):
+    ## 입력양식: 축구+농구+야구
+    if (not re.match(r"([가-힣]|\+)+$", input_text)):
+        return "오류: 분류를 다시 입력해 주세요."
+    input_list = input_text.split("+")
+    if len(input_list) != len(set(input_list)):
+        return "오류: 중복된 분류가 있습니다."
+    ##개별 분류의 길이는 5 이하
+    return "True"
+
+def is_valid_theme_a_word(input_text):
+    return re.match('^[가-힣]{1,5}$', input_text)
+
 def is_valid_date_str(input_date):
     if (not re.match(r"\d{4}-\d{2}-\d{2}$", input_date)):
         return "오류: 날짜는 YYYY-MM-DD 형태로 입력해야 합니다."
@@ -96,6 +111,7 @@ def is_valid_date_str(input_date):
         return "True"
     except ValueError:
         return "오류: 정의되지 않은 날짜 입니다."
+
 
 def is_valid_day_detail_str(input_text):
     if (not re.match(r"([월화수목금토일]\/)*[월화수목금토일]$", input_text)):
@@ -162,6 +178,12 @@ def is_in_7days(input_date, today):
     return (input_date - today).days <= 7 and (input_date - today).days >= 0
 
 
+def is_in_x_days(input_date, today, x):
+    input_date = datetime.strptime(input_date, "%Y-%m-%d").date()
+    today = datetime.strptime(today, "%Y-%m-%d").date()
+    return (input_date - today).days <= x and (input_date - today).days >= 0
+
+
 def is_under_7days(input_date, today_date):
     ##마감일은 오늘보다 빠르기만 하면 됨
     input = datetime.strptime(input_date, "%Y-%m-%d").date()
@@ -176,13 +198,13 @@ def compare_date_bool(dateA, date_B):
     date_B = datetime.strptime(date_B, "%Y-%m-%d").date()
     return dateA > date_B  ##dateA가 더 늦으면 True
 
+
 def compare_date_bool_include_equal(dateA, date_B):
     if (dateA == "x"):
         return True
     dateA = datetime.strptime(dateA, "%Y-%m-%d").date()
     date_B = datetime.strptime(date_B, "%Y-%m-%d").date()
     return dateA >= date_B  ##dateA가 더 늦으면 True
-
 
 
 def diff_date(input_date, today_date):
@@ -247,6 +269,7 @@ def input_menu(start, end, input_message):
     err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요."
     return get_menu_input(input_message, err_message, start, end)
 
+
 def get_menu_input(input_message, err_message, start, end):
     while (True):
         try:
@@ -286,7 +309,7 @@ def add_finish_date(finish_date, edit_date):
         list = finish_date.strip().split("/")
         if (edit_date not in list):
             list.append(edit_date)
-        if(len(list)==1):
+        if (len(list) == 1):
             return list[0]
         else:
             return "/".join(list)
@@ -296,7 +319,76 @@ def remove_finish_date(finish_date, edit_date):
     list = finish_date.strip().split("/")
     if (edit_date in list):
         list.remove(edit_date)
-    if(len(list)==0):
+    if (len(list) == 0):
         return "x"
     else:
         return "/".join(list)
+
+
+def is_valid_search(text):
+    ##text가 유효한지 검사
+    ##단어 토큰이 'and or not' 혹은 5글자 이하 한글 이어야 함
+    word_list = text.split(' ')
+    for word in word_list:
+        if word not in ['and', 'or', 'not'] and not is_valid_theme_a_word(word):
+            return False
+    if (len(word_list) == 1 and word_list[0] in ['and', 'or', 'not']):
+        return False
+    if (word_list[0] in ['and', 'or'] or word_list[-1] in ['and', 'or', 'not']):
+        print("처음이나 끝에 논리 연산자는 사용할 수 없습니다.\n")
+        return False
+    ## not, or, and가 연속으로 나오면 안됨
+    ## 단어가 연속으로 나오면 안됨
+    ## or not은 가능
+    for i in range(len(word_list) - 1):
+        if word_list[i] not in ['and', 'or', 'not'] and word_list[i + 1] not in ['and', 'or', 'not']:
+            print("연속된 단어는 사용할 수 없습니다.\n")
+            return False
+        if word_list[i] in ['and', 'or', 'not'] and word_list[i + 1] in ['and', 'or', 'not']:
+            if ((word_list[i] == 'and' or word_list[i] == 'or') and word_list[i + 1] == 'not'):
+                continue
+            print("연속된 논리 연산자는 사용할 수 없습니다.\n")
+            return False
+        if word_list[i] == 'not' and word_list[i + 1] in ['and', 'or', 'not']:
+            print("not 뒤에는 단어가 와야 합니다.\n")
+            return False
+    return True
+
+def get_query_func(query_text):
+    ## query_text와 word_list를 받아서 True, False를 리턴하는 함수를 리턴
+    ## and, not으로 이루어진 텍스트를 함수로 바꿔줌
+    ## and는 두 함수를 and로 연결
+    ## word_list가 query_text를 모두 만족해야 함.
+    query_list = query_text.split(' ')
+    postive_set = set()
+    negative_set = set()
+    if len(query_list) == 1:
+        postive_set.add(query_list[0])
+    else:
+        if query_list[0] not in ['not']:
+            postive_set.add(query_list[0])
+        for i in range(1, len(query_list)):
+            if query_list[i] not in ['and', 'not']:
+                if query_list[i - 1] == 'and':
+                    postive_set.add(query_list[i])
+                elif query_list[i - 1] == 'not':
+                    negative_set.add(query_list[i])
+
+    ##func는 word_list를 받아서 True, False를 리턴하는 함수
+    def func(theme_text):
+        word_list=theme_text.split('+')
+        # print('word list: ',word_list)
+        # print('theme text: ',theme_text)
+        # print('positive list: ', postive_set)
+        # print('negative list: ',negative_set)
+        for word in word_list:
+            if word in negative_set:
+                # print('False')
+                return False
+        if(postive_set.issubset(set(word_list))):
+            # print('True')
+            return True
+        else:
+            # print('False')
+            return False
+    return func
