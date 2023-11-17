@@ -1,5 +1,5 @@
 from .interface import interface
-from utility import can_finish,add_finish_date,remove_finish_date
+from utility import can_finish,add_finish_date,remove_finish_date, get_most_fast_calculate_date
 class DetailInterface(interface):
     def __init__(self, todo_manager,data):
         self.todo_manager=todo_manager
@@ -32,6 +32,13 @@ class DetailInterface(interface):
     def delete_todo(self):
         if(self.data["repeat"]=="없음"):
             self.todo_manager.delete_todo(self.index)
+        else:
+            ## 반복 정지를 '마감일-1'로 변경
+            self.todo_manager.edit_todo(self.index, "stop_repeat", self.data['calculated_date'])
+            ## 마감일이 마감 날짜 이후 첫 마감일이면 바로 삭제
+            if(self.data['calculated_date']==get_most_fast_calculate_date(self.data['repeat'],self.data['repeat_detail'],self.data['finish_date'])):
+                self.todo_manager.delete_todo(self.index)
+
 
 
     def complete_todo(self):

@@ -90,18 +90,22 @@ def is_valid_detail(input_date, repeat):
     return False
 
 
-def is_valid_theme_str(input_text):
+def is_valid_theme(input_text):
     ## 입력양식: 축구+농구+야구
+    if(input_text=="x"):
+        return True
     if (not re.match(r"([가-힣]|\+)+$", input_text)):
-        return "오류: 분류를 다시 입력해 주세요."
+        return False
     input_list = input_text.split("+")
     if len(input_list) != len(set(input_list)):
-        return "오류: 중복된 분류가 있습니다."
+        return False
     ##개별 분류의 길이는 5 이하
-    return "True"
+    return True
+
 
 def is_valid_theme_a_word(input_text):
     return re.match('^[가-힣]{1,5}$', input_text)
+
 
 def is_valid_date_str(input_date):
     if (not re.match(r"\d{4}-\d{2}-\d{2}$", input_date)):
@@ -165,30 +169,20 @@ def is_valid_repeat(input_string):
 
 def get_valid_date(year, month, day):  ##str 리턴
     if (is_valid_date(str(year) + "-" + str(month) + "-" + str(day))):
-        return str(year) + "-" + str(month) + "-" + str(day)
+        ##
+        return datetime.strptime(str(year) + "-" + str(month) + "-" + str(day), "%Y-%m-%d").date().strftime("%Y-%m-%d")
     else:
         if (month == 13):
             return get_valid_date(year + 1, 1, day)
+        if (day == 0):
+            return get_valid_date(year, month - 1, 31)
         return get_valid_date(year, month, day - 1)
-
-
-def is_in_7days(input_date, today):
-    input_date = datetime.strptime(input_date, "%Y-%m-%d").date()
-    today = datetime.strptime(today, "%Y-%m-%d").date()
-    return (input_date - today).days <= 7 and (input_date - today).days >= 0
 
 
 def is_in_x_days(input_date, today, x):
     input_date = datetime.strptime(input_date, "%Y-%m-%d").date()
     today = datetime.strptime(today, "%Y-%m-%d").date()
     return (input_date - today).days <= x and (input_date - today).days >= 0
-
-
-def is_under_7days(input_date, today_date):
-    ##마감일은 오늘보다 빠르기만 하면 됨
-    input = datetime.strptime(input_date, "%Y-%m-%d").date()
-    today = datetime.strptime(today_date, "%Y-%m-%d").date()
-    return (input - today).days <= 7
 
 
 def compare_date_bool(dateA, date_B):
@@ -221,49 +215,57 @@ def get_start_date(input_date, day):
 
 
 def change_date_to_this_week_year(MM_YY, today_date):
-    if ("/" not in MM_YY):  ##
+    if ("/" not in MM_YY):  ## MM-YY
         today = datetime.strptime(today_date, "%Y-%m-%d").date()
         month = int(MM_YY.split("-")[0])
         day = int(MM_YY.split("-")[1])
-        return datetime.strptime(get_valid_date(today.year, month, day), "%Y-%m-%d").date().strftime("%Y-%m-%d")
-    else:
+        this_year=datetime.strptime(get_valid_date(today.year, month, day), "%Y-%m-%d").date().strftime("%Y-%m-%d")
+        next_year=datetime.strptime(get_valid_date(today.year+1, month, day), "%Y-%m-%d").date().strftime("%Y-%m-%d")
+        return [this_year,next_year]
+    else: ## MM-YY/MM-YY
         list = MM_YY.strip().split("/")
-        result_list = [change_date_to_this_week_year(i, today_date) for i in list]
-        return "/".join(result_list)
+        result_list=[]
+        for i in list:
+            if change_date_to_this_week_year(i, today_date) not in result_list:
+                result_list.extend(change_date_to_this_week_year(i, today_date))
+        return result_list
 
 
 def change_date_to_this_week_month(DD, today):
-    ## 날짜를 today와 크거나 같고 일주일 이하인 날짜로 리턴
+    ## 날짜를 today와 크거나 같고 30일 이내로 바꿔줌
     if ("/" not in DD):  ##
-        today = datetime.strptime(today, "%Y-%m-%d").date()
+        today=datetime.strptime(today, "%Y-%m-%d").date()
         this_month_date = get_valid_date(int(today.year), today.month, int(DD))
         next_month_date = get_valid_date(int(today.year), today.month + 1, int(DD))
-        if (is_in_7days(this_month_date, today.strftime("%Y-%m-%d"))):
-            return datetime.strptime(this_month_date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
-        elif (is_in_7days(next_month_date, today.strftime("%Y-%m-%d"))):
-            return datetime.strptime(next_month_date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
-        else:
-            return "1111-11-11"
+        return [this_month_date, next_month_date]
     else:
         list = DD.strip().split("/")
-        result_list = [change_date_to_this_week_month(i, today) for i in list]
-        return "/".join(result_list)
+        result_list = []
+        for i in list:
+            for date in change_date_to_this_week_month(i, today):
+                if date not in result_list and is_in_x_days(date, today, 31):
+                    result_list.append(date)
+        return result_list
 
 
 def change_date_to_this_week_weekday(weekday, today):
-    ##weekday: 월
-    if ("/" not in weekday):  ##
+    ## weekday를 today와 크거나 같고 30일 이내로 바꿔줌
+    today = datetime.strptime(today, "%Y-%m-%d").date()
+    if ("/" not in weekday):
         week_list = ["월", "화", "수", "목", "금", "토", "일"]
         week_num = week_list.index(weekday)
-        today = datetime.strptime(today, "%Y-%m-%d").date()
         while (today.weekday() != week_num):
             today = today + timedelta(days=1)
         return (today).strftime("%Y-%m-%d")
     else:
         list = weekday.strip().split("/")
-        result_list = [change_date_to_this_week_weekday(i, today) for i in list]
-        return "/".join(result_list)
-
+        result_list = []
+        for i in range(0,31,7):## 35일 이내의 모든 값이 나오게 됨
+            calculated_today=today+timedelta(days=i)
+            calculated_today=calculated_today.strftime("%Y-%m-%d")
+            for j in list:
+                result_list.append(change_date_to_this_week_weekday(j, calculated_today))
+        return result_list
 
 def input_menu(start, end, input_message):
     err_message = "오류: 잘못 된 입력 입니다. 이동하려는 메뉴의 번호를 한자리 숫자로 입력해 주세요."
@@ -354,6 +356,7 @@ def is_valid_search(text):
             return False
     return True
 
+
 def get_query_func(query_text):
     ## query_text와 word_list를 받아서 True, False를 리턴하는 함수를 리턴
     ## and, not으로 이루어진 텍스트를 함수로 바꿔줌
@@ -376,7 +379,10 @@ def get_query_func(query_text):
 
     ##func는 word_list를 받아서 True, False를 리턴하는 함수
     def func(theme_text):
-        word_list=theme_text.split('+')
+        if(theme_text=="x"):
+            word_list=[]
+        else:
+            word_list = theme_text.split('+')
         # print('word list: ',word_list)
         # print('theme text: ',theme_text)
         # print('positive list: ', postive_set)
@@ -385,10 +391,37 @@ def get_query_func(query_text):
             if word in negative_set:
                 # print('False')
                 return False
-        if(postive_set.issubset(set(word_list))):
+        if (postive_set.issubset(set(word_list))):
             # print('True')
             return True
         else:
             # print('False')
             return False
+
     return func
+
+
+def get_most_fast_calculate_date(repeat, repeat_detail, finish_date):
+    calculated_dates = []
+    if (repeat == "매주"):
+        calculated_dates = change_date_to_this_week_weekday(repeat_detail, finish_date).split('/')
+    elif (repeat == "매달"):
+        calculated_dates = change_date_to_this_week_month(repeat_detail, finish_date).split('/')
+    elif (repeat == "매년"):
+        calculated_dates = change_date_to_this_week_year(repeat_detail, finish_date).split('/')
+    ##calculated_dates 중 finish_date보다 빠른 날짜 필터링
+    calculated_dates = [date for date in calculated_dates if compare_date_bool_include_equal(date, finish_date)]
+    ##calculated_dates중 가장 빠른 날짜 리턴
+    return min(calculated_dates)
+
+
+def input_today():
+    while True:
+        # todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
+        todaystr = datetime.today().strftime("%Y-%m-%d")
+        print("디버깅 귀찮으니 오늘 날짜는 현재 날짜"+todaystr+"로 자동 입력됩니다.")
+        ret = is_valid_date_str(todaystr)
+        if ret == "True":
+            return todaystr
+        else:
+            print(ret)

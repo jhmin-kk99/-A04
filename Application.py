@@ -9,7 +9,7 @@ from Interface.SearchInterface import SearchInterface
 class Application:
     def __init__(self):
         self.file_manager = FileManager()
-        self.todo_manager = TodoManager(self.file_manager)
+        self.todo_manager = TodoManager(self.file_manager.get_df_list())
 
     def run(self):  ##메인함수
         self.main_menu()  ##메인메뉴 실행
@@ -74,6 +74,8 @@ class Application:
                 edit_interface.edit_repeat_detail()
             elif menu == 4:
                 edit_interface.edit_finish()
+            elif menu == 5:
+                edit_interface.edit_theme()
             elif menu == 0:
                 break
             else:

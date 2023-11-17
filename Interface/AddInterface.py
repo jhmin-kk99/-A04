@@ -1,9 +1,6 @@
-from datetime import datetime
-
 from .interface import interface
 from utility import is_valid_title_str, is_valid_date_str, \
-    input_menu, is_valid_day_detail_str, is_valid_month_detail_str, is_valid_year_detail_str, diff_date, \
-    change_date_to_this_week_year, change_date_to_this_week_month, change_date_to_this_week_weekday
+    input_menu, is_valid_day_detail_str, is_valid_month_detail_str, is_valid_year_detail_str, diff_date
 
 
 class AddInterface(interface):
@@ -174,4 +171,4 @@ class AddInterface(interface):
                     flag=False
             if(flag):
                 break
-        self.theme = theme.split("+")
+        self.theme = theme

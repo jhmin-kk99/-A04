@@ -11,13 +11,7 @@ class ListInterface(interface):
     def CLI(self):
         self.todo_manager.set_X_DAYS(self.get_X_day())
         self.todolist = self.todo_manager.get_list()
-        if self.funcs is not None:
-            for func in self.funcs:
-                for data in self.todolist:
-                    if data['is_include']: ## 이미 필터링 된 데이터는(or 조건) 다시 필터링 하지 않음
-                        continue
-                    data['is_include'] = func(data['theme'])
-            self.todolist = list(filter(lambda x: x['is_include'], self.todolist))
+        self.filter_todolist_by_theme()
         self.todolist=self.todolist[:10]
         self.range = min(10, len(self.todolist))
         self.text = "<TODO List>\n"
@@ -35,12 +29,20 @@ class ListInterface(interface):
         self.text += "\n0. 돌아가기"
         self.text += "\nTODO/할일>"
         return super().CLI()
+    def filter_todolist_by_theme(self):
+        if self.funcs is not None:
+            for func in self.funcs:
+                for data in self.todolist:
+                    if data['is_include']: ## 이미 필터링 된 데이터는(or 조건) 다시 필터링 하지 않음
+                        continue
+                    data['is_include'] = func(data['theme'])
+            self.todolist = list(filter(lambda x: x['is_include'], self.todolist))
 
     def get_detail_data(self, num):
         return self.todolist[num - 1]
 
     def get_X_day(self):
-        input_message = "향후 몇 날? [" + str(self.todo_manager.X_DAYS) + "]>"
+        input_message = "향후 몇 날? [7]>"
         err_message = "오류: 잘못 된 입력 입니다. 음이 아닌 정수로 입력해 주세요"
         while True:
             try:
@@ -48,7 +50,7 @@ class ListInterface(interface):
                 if (input_str == ""):
                     return 7
                 input_int = int(input_str)
-                if (input_int < 0):
+                if (input_int < 0 or input_int > 30):
                     print(err_message)
                     continue
                 return input_int

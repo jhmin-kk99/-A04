@@ -1,16 +1,14 @@
-from utility import get_start_date, is_completed
+from utility import get_start_date, is_completed,input_today
 from Todo import Todo
 class TodoManager:
-    def __init__(self, file_manager):
+    def __init__(self, list_data):
         self.todos = {}
-        self.file_manager = file_manager
-        self.TODAY = self.file_manager.TODAY
+        self.TODAY = input_today()
         self.index=0
         self.X_DAYS=7
-        self.load_todos()
+        self.load_todos(list_data)
 
-    def load_todos(self):
-        list_data=self.file_manager.get_df_list()
+    def load_todos(self,list_data):
         for row in list_data:
             new_todo=Todo(row,self.index)
             new_todo.calculate_dates(self.TODAY,self.X_DAYS)
@@ -27,7 +25,7 @@ class TodoManager:
     def add_todo(self, list):
         new_todo=Todo(list,self.index)
         new_todo.calculate_dates(self.TODAY,self.X_DAYS)
-        self.todos.append(new_todo)
+        self.todos[self.index]=new_todo
         self.index+=1
 
     def edit_todo(self,index,key,value):

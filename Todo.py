@@ -47,11 +47,11 @@ class Todo:
         if(self.repeat=="없음"):
             self.calculated_dates.append(self.finish_date)
         elif(self.repeat=="매주"):
-            self.calculated_dates=change_date_to_this_week_weekday(self.repeat_detail,TODAY).split('/')
+            self.calculated_dates=change_date_to_this_week_weekday(self.repeat_detail,TODAY)
         elif(self.repeat=="매달"):
-            self.calculated_dates=change_date_to_this_week_month(self.repeat_detail,TODAY).split('/')
+            self.calculated_dates=change_date_to_this_week_month(self.repeat_detail,TODAY)
         elif(self.repeat=="매년"):
-            self.calculated_dates=change_date_to_this_week_year(self.repeat_detail,TODAY).split('/')
+            self.calculated_dates=change_date_to_this_week_year(self.repeat_detail,TODAY)
         ##반복 정지일이 있으면 그 날짜 이후 필터링
         if(self.stop_repeat!="x"):
             self.calculated_dates=[date for date in self.calculated_dates if compare_date_bool(self.stop_repeat,date)]

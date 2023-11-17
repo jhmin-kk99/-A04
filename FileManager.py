@@ -20,21 +20,10 @@ class FileManager:
                 "작업 이름": [], "마감 날짜": [], "시작 날짜": [], "반복": [], "반복 세부": [],"반복 정지": [], "완료": [], "분류": []
             })
             self.df.to_csv(self.file_path, index=False)
-        self.TODAY = self.input_today()  ##datetime.date
 
 
     def get_df_list(self):
         return self.df.values.tolist()
-
-    def input_today(self):
-        while True:
-            # todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
-            todaystr = datetime.today().strftime("%Y-%m-%d")
-            ret = is_valid_date_str(todaystr)
-            if ret == "True":
-                return todaystr
-            else:
-                print(ret)
 
 
     def is_valid_file(self):
@@ -60,6 +49,7 @@ class FileManager:
                     and is_valid_finish(row_data['data']['완료'])
                     and is_valid_detail(row_data['data']['반복 세부'], row_data['data']['반복'])
                     and is_valid_repeat_end_date(row_data['data']['반복 정지'])
+                    and is_valid_theme(row_data['data']['분류'])
             ):
                 continue
             else:
