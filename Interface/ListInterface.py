@@ -12,7 +12,7 @@ class ListInterface(interface):
         self.todo_manager.set_X_DAYS(self.get_X_day())
         self.todolist = self.todo_manager.get_list()
         self.filter_todolist_by_theme()
-        self.todolist=self.todolist[:10]
+        self.todolist = self.todolist[:10]
         self.range = min(10, len(self.todolist))
         self.text = "<TODO List>\n"
         if len(self.todolist) == 0:
@@ -43,17 +43,17 @@ class ListInterface(interface):
 
     def get_X_day(self):
         input_message = "향후 몇 날? [7]>"
-        err_message = "오류: 잘못 된 입력 입니다. 음이 아닌 정수로 입력해 주세요"
+        err_message = "오류: 잘못 된 입력 입니다. 0 이상 30 이하의 자연수를 입력해 주세요"
         while True:
             try:
                 input_str = input(input_message)
                 if (input_str == ""):
                     return 7
-                input_int = int(input_str)
-                if (input_int < 0 or input_int > 30):
+                day_list = [str(i) for i in range(0, 31)]
+                if not input_str in day_list:
                     print(err_message)
                     continue
-                return input_int
+                return int(input_str)
             except ValueError:
                 print(err_message)
                 continue

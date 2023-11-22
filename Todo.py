@@ -17,7 +17,7 @@ class Todo:
         self.completed=list[6]
         self.theme=list[7]
 
-    def edit_data(self,key,value,TODAY,X_DAYS):
+    def edit_data(self, key, value, TODAY, X_DAYS, doCalc):
         if(key=="title"):
             self.title=value
         elif(key=="finish_date"):
@@ -35,7 +35,8 @@ class Todo:
         elif(key=="theme"):
             self.theme=value
         self.calculated_dates=[]
-        self.calculate_dates(TODAY,X_DAYS)
+        if doCalc:
+            self.calculate_dates(TODAY,X_DAYS)
 
     def get_data(self):
         ##dict 형식으로 리턴
