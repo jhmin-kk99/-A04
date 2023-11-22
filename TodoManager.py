@@ -28,8 +28,8 @@ class TodoManager:
         self.todos[self.index]=new_todo
         self.index+=1
 
-    def edit_todo(self,index,key,value):
-        self.todos[index].edit_data(key,value,self.TODAY,self.X_DAYS)
+    def edit_todo(self, index, key, value, doCalc = True):
+        self.todos[index].edit_data(key, value, self.TODAY, self.X_DAYS, doCalc)
 
     def delete_todo(self,index):
         del self.todos[index]

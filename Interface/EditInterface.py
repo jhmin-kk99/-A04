@@ -92,7 +92,7 @@ class EditInterface(interface):
         menu = input_menu(1, 4, text)
         menu_list = ["-", "없음", "매주", "매달", "매년"]
         menu = menu_list[menu]
-        self.todo_manager.edit_todo(self.index, 'repeat', menu)
+        self.todo_manager.edit_todo(self.index, 'repeat', menu, False)
         self.detail.data['repeat'] = menu
         self.update_todo_text()
 
