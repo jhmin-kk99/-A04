@@ -42,12 +42,12 @@ class DetailInterface(interface):
 
 
     def complete_todo(self):
-        if(self.data["completed"]=="o"):
+        if(self.data["calculated_completed"]=="o"):
             print("오류: 이미 완료된 할일입니다.")
         elif(can_finish(self.data['start_date'],self.todo_manager.TODAY)):##완료 가능함
             complete_days=add_finish_date(self.data['completed'],self.data['calculated_date'])
             self.todo_manager.edit_todo(self.data['index'], "completed", complete_days)
-            self.data['completed']="o"
+            self.data['calculated_completed']="o"
         else:
             print("오류: 시작일이 지나지 않았습니다.")
 

@@ -130,7 +130,8 @@ class EditInterface(interface):
 
     def edit_stop_repeat(self):
         text = "<할일 수정하기>\n"
-        text += "TODO/할일수정 - 반복 정지일 (무한 반복이면 'x' 입력)\n"
+        text += self.todoText + "\n변경될 반복 정지일을 입력하세요."
+        text += "\nTODO/할일수정 - 반복 정지일 (무한 반복이면 'x' 입력)\n"
         while (True):
             date = input(text)
             if (date == "x" or is_valid_date_str(date) == "True"):
