@@ -422,8 +422,7 @@ def get_most_fast_calculate_date(repeat, repeat_detail, finish_date):
 def input_today():
     while True:
         todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
-        # todaystr = datetime.today().strftime("%Y-%m-%d")
-        # print("디버깅 귀찮으니 오늘 날짜는 현재 날짜"+todaystr+"로 자동 입력됩니다.")
+
         ret = is_valid_date_str(todaystr)
         if ret == "True":
             return todaystr
