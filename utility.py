@@ -264,7 +264,7 @@ def change_date_to_this_week_weekday(weekday, today):
             calculated_today=today+timedelta(days=i)
             calculated_today=calculated_today.strftime("%Y-%m-%d")
             for j in list:
-                result_list.append(change_date_to_this_week_weekday(j, calculated_today))
+                result_list.append(change_date_to_this_week_weekday(j, calculated_today)[0])
         return result_list
 
 def input_menu(start, end, input_message):
@@ -421,8 +421,9 @@ def get_most_fast_calculate_date(repeat, repeat_detail, finish_date):
 
 def input_today():
     while True:
-        todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
-
+        # todaystr = input("오늘 날짜를 입력하세요(YYYY-MM-DD): ")
+        todaystr = datetime.today().strftime("%Y-%m-%d")
+        print("디버깅 귀찮으니 오늘 날짜는 현재 날짜"+todaystr+"로 자동 입력됩니다.")
         ret = is_valid_date_str(todaystr)
         if ret == "True":
             return todaystr
