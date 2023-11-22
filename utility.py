@@ -332,27 +332,31 @@ def is_valid_search(text):
     ##단어 토큰이 'and or not' 혹은 5글자 이하 한글 이어야 함
     word_list = text.split(' ')
     for word in word_list:
+        if word == '':
+            print("오류: 입력을 해주세요")
         if word not in ['and', 'or', 'not'] and not is_valid_theme_a_word(word):
+            print("오류: 올바르지 않은 입력이 포함되어 있습니다.")
             return False
     if (len(word_list) == 1 and word_list[0] in ['and', 'or', 'not']):
+        print("오류: 입력이 논리 연산자 만을 포함하고 있습니다.")
         return False
     if (word_list[0] in ['and', 'or'] or word_list[-1] in ['and', 'or', 'not']):
-        print("처음이나 끝에 논리 연산자는 사용할 수 없습니다.\n")
+        print("오류: 처음이나 끝에 논리 연산자는 사용할 수 없습니다.\n")
         return False
     ## not, or, and가 연속으로 나오면 안됨
     ## 단어가 연속으로 나오면 안됨
     ## or not은 가능
     for i in range(len(word_list) - 1):
         if word_list[i] not in ['and', 'or', 'not'] and word_list[i + 1] not in ['and', 'or', 'not']:
-            print("연속된 단어는 사용할 수 없습니다.\n")
+            print("오류: 연속된 단어는 사용할 수 없습니다.\n")
             return False
         if word_list[i] in ['and', 'or', 'not'] and word_list[i + 1] in ['and', 'or', 'not']:
             if ((word_list[i] == 'and' or word_list[i] == 'or') and word_list[i + 1] == 'not'):
                 continue
-            print("연속된 논리 연산자는 사용할 수 없습니다.\n")
+            print("오류: 연속된 논리 연산자는 사용할 수 없습니다.\n")
             return False
         if word_list[i] == 'not' and word_list[i + 1] in ['and', 'or', 'not']:
-            print("not 뒤에는 단어가 와야 합니다.\n")
+            print("오류: not 연산자 뒤에는 단어가 와야 합니다.\n")
             return False
     return True
 
