@@ -404,11 +404,11 @@ def get_query_func(query_text):
 def get_most_fast_calculate_date(repeat, repeat_detail, finish_date):
     calculated_dates = []
     if (repeat == "매주"):
-        calculated_dates = change_date_to_this_week_weekday(repeat_detail, finish_date).split('/')
+        calculated_dates = change_date_to_this_week_weekday(repeat_detail, finish_date)
     elif (repeat == "매달"):
-        calculated_dates = change_date_to_this_week_month(repeat_detail, finish_date).split('/')
+        calculated_dates = change_date_to_this_week_month(repeat_detail, finish_date)
     elif (repeat == "매년"):
-        calculated_dates = change_date_to_this_week_year(repeat_detail, finish_date).split('/')
+        calculated_dates = change_date_to_this_week_year(repeat_detail, finish_date)
     ##calculated_dates 중 finish_date보다 빠른 날짜 필터링
     calculated_dates = [date for date in calculated_dates if compare_date_bool_include_equal(date, finish_date)]
     ##calculated_dates중 가장 빠른 날짜 리턴
