@@ -1,6 +1,6 @@
 from .interface import interface
 from utility import is_valid_title_str, is_valid_date_str, \
-    input_menu, is_valid_day_detail_str, is_valid_month_detail_str, is_valid_year_detail_str, diff_date
+    input_menu, is_valid_day_detail_str, is_valid_month_detail_str, is_valid_year_detail_str, diff_date, is_valid_theme
 
 
 class AddInterface(interface):
@@ -155,20 +155,14 @@ class AddInterface(interface):
 
     def ask_theme(self):
         text = "<할일 추가하기>\n"
-        text +=self.middle_text
+        text += self.middle_text
         text += "추가할 할일의 분류를 입력해 주세요.\n" \
                 "예시: 일상+공부 or 일상\n"
         text += "TODO/할일추가 - 분류\n"
         while (True):
             theme = input(text)
-            flag=True
-            if (theme == "x"):
-                self.theme = "x"
+            if (is_valid_theme(theme)):
                 break
-            for text in theme.split("+"):
-                if (is_valid_title_str(text) != "True"):
-                    print(is_valid_title_str(text))
-                    flag=False
-            if(flag):
-                break
+            else:
+                print("오류: 분류를 다시 입력해 주세요.")
         self.theme = theme
