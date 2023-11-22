@@ -94,7 +94,7 @@ def is_valid_theme(input_text):
     ## 입력양식: 축구+농구+야구
     if(input_text=="x"):
         return True
-    if (not re.match(r"([가-힣]|\+)+$", input_text)):
+    if (not re.match(r"^([가-힣]{1,5}\+)*[가-힣]{1,5}$", input_text)):
         return False
     input_list = input_text.split("+")
     if len(input_list) != len(set(input_list)):
